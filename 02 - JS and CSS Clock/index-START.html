@@ -1,74 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JS + CSS Clock</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>JS + CSS Clock</title>
+    </head>
+    <body>
+        <div class="clock">
+            <div class="clock-face">
+                <div class="hand hour-hand" id="hour-hand">hour</div>
+                <div class="hand min-hand" id="min-hand">min</div>
+                <div class="hand second-hand" id="second-hand">sec</div>
+            </div>
+        </div>
 
+        <style>
+            html {
+                background: #018ded
+                    url(https://unsplash.it/1500/1000?image=881&blur=5);
+                background-size: cover;
+                font-family: "helvetica neue";
+                text-align: center;
+                font-size: 10px;
+            }
 
-    <div class="clock">
-      <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
-      </div>
-    </div>
+            body {
+                margin: 0;
+                font-size: 2rem;
+                display: flex;
+                flex: 1;
+                min-height: 100vh;
+                align-items: center;
+            }
 
+            .clock {
+                width: 30rem;
+                height: 30rem;
+                border: 20px solid white;
+                border-radius: 50%;
+                margin: 50px auto;
+                position: relative;
+                padding: 2rem;
+                box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1),
+                    inset 0 0 0 3px #efefef, inset 0 0 10px black,
+                    0 0 10px rgba(0, 0, 0, 0.2);
+            }
 
-  <style>
-    html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
-      background-size: cover;
-      font-family: 'helvetica neue';
-      text-align: center;
-      font-size: 10px;
-    }
+            .clock-face {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transform: translateY(-3px);
+                /* account for the height of the clock hands */
+            }
 
-    body {
-      margin: 0;
-      font-size: 2rem;
-      display: flex;
-      flex: 1;
-      min-height: 100vh;
-      align-items: center;
-    }
+            .hand {
+                width: 50%;
+                height: 6px;
+                background: black;
+                position: absolute;
+                top: 50%;
+            }
 
-    .clock {
-      width: 30rem;
-      height: 30rem;
-      border: 20px solid white;
-      border-radius: 50%;
-      margin: 50px auto;
-      position: relative;
-      padding: 2rem;
-      box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
-        inset 0 0 0 3px #EFEFEF,
-        inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
-    }
+            .second-hand {
+                --rotation: 90; /* set a var as --rotation and set it to 90 */
+                width: 50%;
+                height: 6px;
+                background: red;
+                position: absolute;
+                top: 50%;
+                transform-origin: bottom right;
+                transform: rotate(calc(var(--rotation)*1deg)); 
+                /* rotate it based on the --rotation var and it is set to 90 at the beginning */
+            }
 
-    .clock-face {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
-    }
+            .min-hand {
+                --rotation: 90;
+                width: 50%;
+                height: 6px;
+                background: green;
+                /* changed to green so that it is easir to tell */
+                position: absolute;
+                top: 50%;
+                transform-origin: bottom right;
+                transform: rotate(calc(var(--rotation)*1deg));
+                /* rotate it based on the --rotation var and it is set to 90 at the beginning */
+            }
 
-    .hand {
-      width: 50%;
-      height: 6px;
-      background: black;
-      position: absolute;
-      top: 50%;
-    }
+            .hour-hand {
+                --rotation: 90;
+                width: 50%;
+                height: 6px;
+                /* increase the height so that it is easier to see */
+                background: black;
+                position: absolute;
+                top: 50%;
+                transform-origin: bottom right;
+                transform: rotate(calc(var(--rotation)*1deg));
+                /* rotate it based on the --rotation var and it is set to 90 at the beginning */
+            }
 
-  </style>
+          
+        </style>
 
-  <script>
+        <script>
 
+          function setTime() { // wrap the whole code inside a function called setTime
+            const date = new Date();
+            let startingDeg = 90;
+            let hours = date.getHours()%12;
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+            // console.log("hr:", hours, "min:", minutes, "sec:", seconds);
+            const hourHand = document.getElementById("hour-hand")
+            const minuteHand = document.getElementById("min-hand")
+            const secondHand = document.getElementById("second-hand")
+            hourHand.style.setProperty("--rotation", (hours/12)*360+startingDeg);
+            minuteHand.style.setProperty("--rotation", (minutes/60)*360+startingDeg);
+            secondHand.style.setProperty("--rotation", (seconds/60)*360+startingDeg);
+          }
+          setInterval(setTime, 1000); // every 1 sec pass in setTime function
 
-  </script>
-</body>
+          setTime();//invoke the function when running the scripts
+        </script>
+    </body>
 </html>
