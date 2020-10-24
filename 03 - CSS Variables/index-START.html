@@ -9,16 +9,16 @@
 
   <div class="controls">
     <label for="spacing">Spacing:</label>
-    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
-
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px" onchange="updateTextInput(this.value, 'spacing')"> 
+    <!-- added in updateTextInput method to detect changes in the value -->
     <label for="blur">Blur:</label>
-    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
-
+    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px" onchange="updateTextInput(this.value, 'blur')">
+    <!-- added in this method also to detect changes in the value -->
     <label for="base">Base Color</label>
-    <input id="base" type="color" name="base" value="#ffc600">
+    <input id="base" type="color" name="base" value="#ffc600" onchange="updateTextInput(this.value, 'base')">
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500" class="container">
 
   <style>
 
@@ -39,12 +39,32 @@
       margin-bottom: 50px;
     }
 
+    .container {
+      background-color: #ffc600;
+      padding: 10px;
+      filter: blur(10px);
+    }
+    
+    .hl {
+      color: #ffc600;
+    }
+
     input {
       width: 100px;
     }
   </style>
 
   <script>
+    function updateTextInput(val, id) {
+      if (id === "spacing") {
+        document.querySelector(".container").style.padding = `${val}px`;
+      } else if (id === "blur") {
+        document.querySelector(".container").style.filter = `blur(${val}px)`;
+      } else {
+        document.querySelector(".hl").style.color = `${val}`;
+        document.querySelector(".container").style.background = `${val}`;
+      }
+    }
   </script>
 
 </body>
