@@ -26,6 +26,9 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex; 
+      /* added in display:flex */
+      
     }
 
     .panel {
@@ -43,19 +46,24 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      /* added in flex:1 */
+      padding-top: auto;
+      padding: auto;
     }
 
-    .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
-    .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
-    .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
-    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
-    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+    .panel1 { background-image:url("flower.jpg"); }
+    .panel2 { background-image:url("food.jpg"); }
+    .panel3 { background-image:url("flower.jpg"); }
+    .panel4 { background-image:url("green.jpg"); }
+    .panel5 { background-image:url("flower.jpg"); }
 
     /* Flex Children */
     .panel > * {
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+
     }
 
     .panel p {
@@ -63,10 +71,12 @@
       font-family: 'Amatic SC', cursive;
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
+      
     }
     
     .panel p:nth-child(2) {
       font-size: 4em;
+      
     }
 
     .panel.open {
@@ -105,7 +115,15 @@
   </div>
 
   <script>
+    const len = document.querySelectorAll(".panel").length;//first, get the length of all the divs
+    for (let i = 1; i<= len; i++) { 
+      // use a for loop to loop get the first and third p tag and make it empty
+      // then center the second p tag 
+      document.querySelector(`.panel${i} p:nth-child(1)`).innerHTML="";
+      document.querySelector(`.panel${i} p:nth-child(3)`).innerHTML="";
+      document.querySelector(`.panel${i} p:nth-child(2)`).style.margin = "15rem auto";
 
+    }
   </script>
 
 
