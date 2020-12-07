@@ -1,22 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Type Ahead 👀</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <form class="search-form" id="myForm">
+            <input
+                type="text"
+                class="search"
+                placeholder="City or State"
+                onkeyup="getInput(this.value)"
+            />
+            <ul class="suggestions" id="div1">
+                <li>Filter for a city</li>
+                <li>or a state</li>
+            </ul>
+        </form>
+        <script>
+            const currentDiv = document.getElementById("div1"); 
+            const endpoint =
+                "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+           
+            const info = [];
+            fetch(endpoint)
+                .then((blob) => blob.json())
+                .then((data) => info.push(...data)); 
+            // the moment the web opens we fetch the data instead of doing so when the user presses any key
 
-  <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
-    <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
-    </ul>
-  </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+            function getInput(userInput) {
+                  const result = matchingResult(userInput, info);
+                  const modifiedResult = result.map((singleResult) => {
+                    const regex = new RegExp(userInput, "gi");
+                    const cityName = singleResult.city.replace(regex, `<span class="hl">${userInput}</span>`);
+                    const stateName = singleResult.state.replace(regex, `<span class="hl">${userInput}</span>`);
+                    return `
+                        <li>
+                            <span>${cityName}, ${stateName}</span>
+                            <span>${numberWithCommas(singleResult.population)}</span>
+                        </li>`
+                  }).join("");
 
-</script>
-</body>
+                  currentDiv.innerHTML = modifiedResult;
+            }
+
+            // this function checks to see if the city name or the state name includes the user input
+            function matchingResult(userInput, info) {
+                return info.filter(singleInfo => {
+                    const regex = new RegExp(userInput, "gi"); // global and case sensitive
+                    return singleInfo.city.match(regex) || singleInfo.state.match(regex);
+                    // returns a new array that only includes the items which matches the regex
+                })
+            }
+
+            function numberWithCommas(x) {
+                // a method to return a number with commas as thousands separators
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            // refer to this stackoverflow post: https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+        </script>
+    </body>
 </html>

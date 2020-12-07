@@ -65,10 +65,22 @@ input.search {
   background: linear-gradient(to top,  #ffffff 0%,#EFEFEF 100%);
 }
 
+
 span.population {
   font-size: 15px;
 }
 
 .hl {
-  background: #ffc600;
+  background-color: #ffc600;
+}
+
+.mystyle {
+  color: #ffc600 !important; 
+  /* text-align: left;
+  margin-right: 0;
+  padding-right: 0; */
+}
+
+.test {
+  color: red !important;
 }
